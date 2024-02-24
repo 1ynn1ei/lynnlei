@@ -1,14 +1,11 @@
 use std::fs;
-use maud::{Render};
+use pulldown_cmark::{Parser, Options};
 mod template;
-mod markdown;
+mod page;
 
-use crate::markdown::Markdown;
+use crate::page::Markdown;
 fn main() {
     let content = fs::read_to_string("blog/test.md").unwrap();
-    let markdown_content = Markdown(content);
-    let markup = template::body(Some(String::from("test")),
-        markdown_content.render()
-    );
-    println!("{}", markup.into_string());
+    let test = page::Page::new(&content);
+    println!("{}", test.render().into_string());
 }

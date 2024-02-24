@@ -1,6 +1,6 @@
 use maud::{html, Markup, DOCTYPE};
 
-pub fn body(htitle: Option<String>, content: Markup) -> Markup {
+pub fn body(htitle: Option<&String>, content: &Markup) -> Markup {
     html! {
         (DOCTYPE)
         meta charset="utf-8";
