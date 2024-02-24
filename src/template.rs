@@ -6,10 +6,10 @@ pub fn body(htitle: Option<&String>, content: &Markup) -> Markup {
         meta charset="utf-8";
         title {
             @if let Some(htitle) = htitle {
+                "lynnlei"
+                    "::"
                 (htitle)
-                " 〜 "
             }
-            "lynnlei"
         }
         link rel="stylesheet" href="/styles.css";
         main {
