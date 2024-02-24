@@ -17,3 +17,19 @@ pub fn body(htitle: Option<&String>, content: &Markup) -> Markup {
         }
     }
 }
+
+pub fn index(data: Vec<(String, String)>) -> Markup {
+    body(
+        None,
+        &html! {
+            h1 { "Blog" }
+            ul.manifest {
+                @for (title, link) in data {
+                    a href= { (link) } {
+                        (title)
+                    }
+                }
+            }
+        }
+    )
+}
