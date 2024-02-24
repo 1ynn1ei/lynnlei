@@ -23,10 +23,11 @@ pub struct Page {
 }
 
 impl Page {
-    pub fn new (file_content: &str) -> Self {
+    pub fn new (page_path: &std::path::PathBuf) -> Self {
+        let mut file_content = std::fs::read_to_string(page_path).unwrap();
         let mut title = String::new();
         let mut content = String::new();
-        let parser = Parser::new_ext(file_content, Options::ENABLE_HEADING_ATTRIBUTES);
+        let parser = Parser::new_ext(&file_content, Options::ENABLE_HEADING_ATTRIBUTES);
         let parser = parser
             .map(|event| match event {
                 Event::Text(ref text) => {
