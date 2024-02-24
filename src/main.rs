@@ -1,10 +1,10 @@
-use pulldown_cmark::{Parser, Options};
+
 use std::io::prelude::*;
 use page::Page;
 mod template;
 mod page;
 
-use crate::page::Markdown;
+
 fn main() {
     for entry in glob::glob("pages/**/*.md").expect("Failed to read pattern") {
         match entry {
