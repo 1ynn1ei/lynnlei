@@ -4,6 +4,7 @@ pub fn body(htitle: Option<&String>, content: &Markup) -> Markup {
     html! {
         (DOCTYPE)
         meta charset="utf-8";
+        link rel="stylesheet" href="/styles.css";
         title {
             @if let Some(htitle) = htitle {
                 "lynnlei"
@@ -11,11 +12,9 @@ pub fn body(htitle: Option<&String>, content: &Markup) -> Markup {
                 (htitle)
             }
         }
-        link rel="stylesheet" href="/styles.css";
         main {
             (content)
         }
-
         footer {
             "Built by rust, Powered by maud, Cleaned by ammonia"
         }

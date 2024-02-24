@@ -1,2 +1,24 @@
-<!DOCTYPE html><meta charset="utf-8"><title>lynnlei::Static Site Generation in Rust</title><link rel="stylesheet" href="/styles.css"><main><h1>Static Site Generation in Rust</h1>
+<!DOCTYPE html><meta charset="utf-8"><link rel="stylesheet" href="/styles.css"><title>lynnlei::Static Site Generation in Rust</title><main><h1>Static Site Generation in Rust</h1>
+<h2>Header 2</h2>
+<p>We used some code to make this work:</p>
+<pre><code>html! {
+    (DOCTYPE)
+    meta charset="utf-8";
+    link rel="stylesheet" href="/styles.css";
+    title {
+        @if let Some(htitle) = htitle {
+            "lynnlei"
+                "::"
+            (htitle)
+        }
+    }
+    main {
+        (content)
+    }
+    footer {
+        "Built by rust, Powered by maud, Cleaned by ammonia"
+    }
+}
+</code></pre>
+<p>and then we did some other things</p>
 </main><footer>Built by rust, Powered by maud, Cleaned by ammonia</footer>

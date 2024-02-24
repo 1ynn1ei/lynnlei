@@ -3,13 +3,9 @@
   --light: #E0DEF4;
   --light-accent: #F6C177;
   --dark: #18181A;
+  --less-dark: #28282A;
   --dark-accent: #64403E;
   padding-bottom: 10em;
-}
-
-h4 {
-  font-style: italic;
-  width: 60%;
 }
 
 body {
@@ -19,6 +15,23 @@ body {
 a {
   color: var(--light-accent);
 }
+
+pre {
+  font-family: monospace;
+  border: 1px solid var(--dark);
+  background: var(--less-dark); 
+  border-left: 3px solid var(--dark-accent);
+  page-break-inside: avoid;
+  padding: 1em 1.5em;
+  display: block;
+  
+}
+
+h4 {
+  font-style: italic;
+  width: 60%;
+}
+
 
 hr {
 	height: 2px;
