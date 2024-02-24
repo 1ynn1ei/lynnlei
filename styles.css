@@ -1,0 +1,20 @@
+:root {
+  color: var(--light);
+  --light: #E0DEF4;
+  --light-accent: #F6C177;
+  --dark: #18181A;
+  --dark-accent: #64403E;
+  box-sizing: border-box;
+  
+  * {
+    box-sizing: inherit;
+  }
+}
+
+body {
+  background: var(--dark);
+}
+
+a {
+  color: var(--light-accent);
+}

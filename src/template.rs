@@ -25,8 +25,10 @@ pub fn index(data: Vec<(String, String)>) -> Markup {
             h1 { "Blog" }
             ul.manifest {
                 @for (title, link) in data {
-                    a href= { (link) } {
-                        (title)
+                    li {
+                        a href= { (link) } {
+                            (title)
+                        }
                     }
                 }
             }

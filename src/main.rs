@@ -24,7 +24,8 @@ fn main() {
             Err(e) => println!("{:?}", e),
         }
     }
-    println!("{:?}", links);
     let mut file = std::fs::File::create("dist/index.html").unwrap();
     file.write_all(template::index(links).into_string().as_bytes()).unwrap();
+
+    std::fs::copy("styles.css", "dist/styles.css").unwrap();
 }
