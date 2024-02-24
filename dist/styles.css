@@ -4,6 +4,12 @@
   --light-accent: #F6C177;
   --dark: #18181A;
   --dark-accent: #64403E;
+  padding-bottom: 10em;
+}
+
+h4 {
+  font-style: italic;
+  width: 60%;
 }
 
 body {
@@ -19,4 +25,15 @@ hr {
   width: 100%;
   border: 0;
   background-color: var(--dark-accent);
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 98%;
+  color: var(--light-accent);
+  text-align: right;
+  font-size: x-small;
+  font-style: italic;
 }
