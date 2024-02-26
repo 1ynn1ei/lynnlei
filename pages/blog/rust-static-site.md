@@ -1,8 +1,80 @@
 # Static Site Generation in Rust
+---
+## the goal
+i required a website. something that would push back, just a tiny bit,
+against the monolithic web 2.0 social media black hole. i wanted something
+that was easy to maintain, easy to add to, and was free of the javascript bloat
+that is so prevalent. 
 
-## Header 2
+static site generation was the solution i found. it also has the added benefit of
+being quite cheap to host! i tried a few frameworks to generate static websites,
+but they all left a bad taste in my mouth. mostly the 'framework' part, or the
+`npm run build` part. i wanted to work on this website from the comfort of my
+daily driver, the x220 thinkpad, and i did not want to install node on this poor
+thing. that left me with the obvious choice: write it myself, and in rust!
 
-We used some code to make this work:
+## the process
+static site generators already exist in the rust ecosystem such as
+[cobalt](https://cobalt-org.github.io/#) or [zola](https://getzola.org#). unfortunately
+i have an obsession with understanding how the systems i use, work. this means we have to 
+start from scratch. or, as close to scratch as i feel comfortable. we're still going to use
+a few tools.
+
+### pull down that mark down
+my goal of both ease of use, as well as ease of addition, i went with markdown. specifically the
+[common mark](https://commonmark.org#) variant. all pages of the website are then stored as
+markdown files, and ingested using the
+[pulldown-cmark](https://docs.rs/pulldown-cmark/latestl/pulldown_cmark/index.html#) crate. the 
+real strength of this crate is our access to the parser, so i can do post-processing to make
+my life just a little bit easier. the best example is the code for parsing blog posts, where i need
+to extract the title of the blog so i can add it to the page title:
+```
+let mut title = String::new();
+let mut content = String::new();
+let parser = Parser::new_ext(&file_content, Options::ENABLE_HEADING_ATTRIBUTES);
+let parser = parser
+    .map(|event| match event {
+        Event::Text(ref text) => {
+            if title.is_empty() {
+                title = text.clone().into_string()
+            }
+            event
+        },
+        _ => event
+});
+html::push_html(&mut content, parser.into_iter());
+content = content: PreEscaped(ammonia::clean(&content));
+```
+in the above snippet i am looping over the entire markdown document, looking for the first instance
+of a text element and grabbing that as the title. this is almost always the first h1 element. an
+example markdown file would be:
+```
+# Static Site Generation in Rust
+
+## the goal
+i required a website. something that would push back, just a tiny bit,
+against the monolithic web 2.0 social media black hole. i wanted something
+that was easy to maintain, easy to add to, and was free of the javascript bloat
+that is so prevalent. 
+```
+after parsing, it would have extracted the title as "Static Site Generation in Rust" while preserving the entiretiy of
+the content. The `PreEscaped` structure is part of the next section, which aids in turning this
+markdown into HTML.
+
+there is an appearance of another crate here, 
+[ammonia](https://docs.rs/ammonia/latest/ammonia.index.html#), which i use just to clean up any
+black-listed html elements that may exist in the markdown files. since this website gets generated
+automatically, it protects against some basic XSS attacks if an attacker were to inject their own
+markdown file before compilation. this is very unlikely, but it's always nice to do best practices.
+### html generation
+i could write html string literals all through my code, but i found a much more clean
+solution: 
+[proc macros](https://doc.rust-lang.org/reference/procedural-macros.html#).
+if you've used rust at all, you're probably most familiar with the `println!` proc macro
+(i'll leave it up to you to look up the code that particular one expands into!) needless
+to say, they are quite powerful. our entire html generation for this project is driven by
+[maud](https://maud.lambda.xyz#) which is one such powerful proc macro. here is how i use it
+to generate this very page:
 ```
 html! {
     (DOCTYPE)
@@ -19,9 +91,29 @@ html! {
         (content)
     }
     footer {
-        "Built by rust, Powered by maud, Cleaned by ammonia"
+        "Built on rust, Powered by maud, Cleaned by ammonia"
     }
 }
 ```
-and then we did some other things
+the `content` and `title` in this macro are provided from the previous snippet of code parsing
+our markdown files. there isn't much more to say here: if you are interested in how this expands
+out into html, i would recommend grabbing the crate for yourself and playing around! or, you could
+check the html structure of this very website.
 
+## the result
+you're looking at it! you can find all the code [here](https://github.com/1ynn1ei/lynnlei.git#).
+
+### next steps
+first, i'd like to move the build process from using a simple `glob` search to using a `Makefile`.
+a Makefile would allow me to leverage things such as checking if files have changed before building
+them, easily moving static files, and easily making the necessary directories while giving a `clean`
+option that is much needed while i do testing.
+
+i'm also doing my best to resist the pull to write my own markdown parser. there is absolutely no
+reason to do this, but i have a preternatural desire to read spec documents and construct parsers.
+in order to sate this desire, i would really love to write a simple parser for any code blocks on
+my website to add simple syntax highlighting, such as italicized comment blocks and colorizing simple
+elements such as strings and functions. keep an eye out for this inevitable project.
+
+---
+_tschüss_
