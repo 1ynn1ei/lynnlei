@@ -22,7 +22,8 @@ a {
   color: var(--light-accent);
 }
 
-pre {
+
+pre code {
   margin: 0 auto;
   font-family: monospace;
   border: 1px solid var(--dark);
@@ -36,6 +37,11 @@ pre {
   width: max-content;
   max-width: 100%;
   
+}
+
+:not(pre) code {
+  font-size: 0.9em;
+  background: var(--less-dark);
 }
 
 h4 {
