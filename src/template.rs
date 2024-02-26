@@ -16,7 +16,7 @@ pub fn body(htitle: Option<&String>, content: &Markup) -> Markup {
             (content)
         }
         footer {
-            "Built by rust, Powered by maud, Cleaned by ammonia"
+            "Built on rust, Powered by maud, Cleaned by ammonia"
         }
     }
 }
